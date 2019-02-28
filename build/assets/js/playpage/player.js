@@ -1,6 +1,6 @@
-import { type_check, type_check_v1, type_check_v2 } from "../utils.js";
-
 "use strict";
+
+import { type_check } from "../utils.js";
 
 class Player {
     constructor(photo, pseudo, region, lifepoint) {
@@ -24,7 +24,6 @@ class Player {
 
         if (type_check(photo, {type:"string"}) && (type_check(pseudo, {type:"string"} )) &&
          (type_check(region, {type:"string"} )) && (type_check(lifepoint, {type:"number"} ))){
-            console.log('ok');
             this.photo = photo;
             this.pseudo = pseudo;
             this.region = region;

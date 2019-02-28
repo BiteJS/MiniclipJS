@@ -83,8 +83,6 @@ function type_check_v1(data, type) {
 
 export {
     httpGetAsync,
-    type_check,
-    type_check_v2,
-    type_check_v1
+    type_check
 };
 
