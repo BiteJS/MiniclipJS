@@ -9,8 +9,8 @@ const table = document.createElement('table');
 const root = document.getElementById('root');
 const para = document.createElement("p");
 
-let players = {};
-let timer, interval;
+var players = {};
+var timer, interval;
 
 
 const playHtml = `<section class="main-container">
