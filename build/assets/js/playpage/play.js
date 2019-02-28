@@ -113,11 +113,14 @@ var conteur = () => {
         var distance = countDownDate - now;
 
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        var milliseconde = Math.floor((distance % (1000 )));
-
 
         // Output the result in an element with id="demo"
-        document.getElementById("demo").innerHTML = seconds + "s " + milliseconde  ;
+        var stringTime = "Ceci est un Timer: {{ type.second }}";
+        var time = {type: {second: seconds}};
+
+
+        document.getElementById("demo").innerHTML =  stringTime.interpolate(time) ;
+        // Output the result in an element with id="demo"
 
     }, 1);
     runPromiseCountDown();
@@ -127,7 +130,7 @@ var runPromiseCountDown = () => {
     var promise1 = new Promise(function(resolve, reject) {
         timer = setTimeout(function() {
             resolve('foo');
-        }, 5000);
+        }, 30000);
     });
 
     promise1.then(function(value) {
@@ -149,6 +152,32 @@ var stopIntervalAndTimeout = () => {
     timer = undefined;
 
 };
+String.prototype.interpolate = function(object) {
+    var path = this.substring(
+        this.lastIndexOf("{{") + 2,
+        this.lastIndexOf("}}")
+    );
+
+    var stringInterpolated = this.replace("{{", "");
+    stringInterpolated =stringInterpolated.replace("}}", "");
+    return stringInterpolated.replace(path, prop_access(object,path.trim()));
+};
+
+function prop_access(object, path) {
+    object = object || {};
+    if(!path) return object;
+    const pathArray = path.split(".");
+
+    for (let i = 0; i< pathArray.length; i++) {
+        object = object[pathArray[i]];
+        if(object === undefined) {
+            console.log(pathArray.slice(0, i+1).join('.') + " not exist");
+            return null;
+        }
+    }
+
+    return object;
+}
 
 export {
     playHtml,
