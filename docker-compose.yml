@@ -1,0 +1,9 @@
+version: '3'
+services:
+  node:
+    image: 'nodejs'
+    volumes:
+      - './build:/usr/share/nginx/html'
+    ports:
+      - '8081:80'
+
