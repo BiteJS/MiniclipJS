@@ -9,7 +9,7 @@ const playHtml = `<section class="main-container">
 const getInfosFromApi = () => {
     console.log(utils);
 
-    utils.httpGetAsync('https://apidev.gameblr.gg/homePageData', extractInfosFromData)
+    utils.httpGetAsync('https://apidev.gameblr.gg/homePageData', extractInfosFromData);
     
 }
 
