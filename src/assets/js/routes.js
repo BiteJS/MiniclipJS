@@ -30,6 +30,7 @@ const generatePlayPage = () => {
     let root = document.getElementById('root');
     root.innerHTML = play.playHtml;
     let button = document.createElement('button');
+    button.setAttribute("id", "start_button");
     button.appendChild(document.createTextNode('Commencer'));
 
     button.onclick = () => {
