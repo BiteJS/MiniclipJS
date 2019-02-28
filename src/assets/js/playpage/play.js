@@ -26,6 +26,7 @@ var extractInfosFromData = (data) => {
 
     for (let element of dataParse.players) {
         let player = new Player(element.photoUrl, element.name, element.region, 100);
+        //let player1 = new Player(12, 'tt','ets', 100);
         players.push(player);
     }
 
@@ -34,7 +35,8 @@ var extractInfosFromData = (data) => {
     mainContainer[0].removeChild(document.getElementById('start_button'));
 
     generatePlayers();
-    console.log(players);
+    //console.log(players);
+    
 }
 
 const generatePlayers = () => {
@@ -44,11 +46,19 @@ const generatePlayers = () => {
             table.appendChild(tr);
 
             for (let key in element) {
+                let text;
                 const td = document.createElement('td');
-                const text = document.createTextNode(element[key]);
-
+                if (key === "photo"){
+                    let img = document.createElement('img');
+                    img.setAttribute('src', element[key])
+                    img.setAttribute('class', 'player-img')
+                    td.appendChild(img);
+                }else{
+                    text = document.createTextNode(element[key]);
+                    td.appendChild(text);
+                }
                 tr.appendChild(td);
-                td.appendChild(text);
+                
             }
         root.appendChild(table);
     }
