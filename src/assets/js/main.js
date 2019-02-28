@@ -2,20 +2,12 @@
 
 import '../css/main.scss';
 
-import * as home from './homepage/home.js';
+import * as routing from './routes.js';
 
 var init = () => {
-    generateHomePage();
-
-};
-
-var generateHomePage = () => {
-
-    console.log(home.homeHtml);
+    routing.startGeneratingPage();
     
-    let root = document.getElementById('root');
-    root.innerHTML = home.homeHtml;
-
 };
+
 
 init();
