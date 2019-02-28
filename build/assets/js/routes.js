@@ -34,7 +34,6 @@ const generatePlayPage = () => {
     button.appendChild(document.createTextNode('Commencer'));
 
     button.onclick = () => {
-        console.log('ON COMMENCE');
         play.getInfosFromApi();
         // window.history.pushState('', 'Play', '/play');
         // startGeneratingPage();
