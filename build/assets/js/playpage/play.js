@@ -1,49 +1,48 @@
 "use strict";
 
 import * as utils from '../utils.js';
-import Player, * as player from './player.js';
+import Player from './player.js';
+import * as routing from '../routes.js';
 
 
 const table = document.createElement('table');
 const root = document.getElementById('root');
 const para = document.createElement("p");
 
-var players = {};
+let players = {};
+let timer, interval;
+
 
 const playHtml = `<section class="main-container">
         </section>`;
 
 
 const getInfosFromApi = () => {
-    console.log(utils);
-
     utils.httpGetAsync('https://apidev.gameblr.gg/homePageData', extractInfosFromData);
-
 };
 
 var extractInfosFromData = (data) => {
     //console.log(JSON.parse(data));
     let dataParse = JSON.parse(data);
-    
-    
+
+
     for (let element of dataParse.players) {
         let player = new Player(element.photoUrl, element.name, element.region, 100);
         //let player1 = new Player(12, 'tt','ets', 100);
-       players[element.lolesportsId] = player;
+        players[element.lolesportsId] = player;
     }
+    let mainContainer = document.getElementsByClassName('main-container')[0];
 
     console.log(players);
-    
 
-   let mainContainer = document.getElementsByClassName('main-container');
-
-    mainContainer[0].removeChild(document.getElementById('start_button'));
+    mainContainer.removeChild(document.getElementById('start_button'));
 
     generatePlayers();
     conteur();
 };
 
 var generatePlayers = () => {
+    let mainContainer = document.getElementsByClassName('main-container')[0];
     for (let pKey in players) {
 
         const tr = document.createElement('tr');
@@ -67,32 +66,34 @@ var generatePlayers = () => {
         tr.appendChild(btnTd);
     }
 
-        root.appendChild(table);
+    mainContainer.appendChild(table);
 };
 
 
 var createChooseBtnTd = (pKey) => {
-        let btnTd = document.createElement('td');
-        let btn = document.createElement('button');
+    let btnTd = document.createElement('td');
+    let btn = document.createElement('button');
+    btn.setAttribute('id', 'choose-Btn');
+    btn.onclick = () => {
 
-        btn.onclick = () => {
-            saveUserId(pKey);
-            // window.history.pushState('', 'Fight', '/fight');
-            // startGeneratingPage();
-        }
-        let btnTxt = document.createTextNode('Choose');
-        btn.appendChild(btnTxt);
-        btn.setAttribute('class', 'btn btn-success');
-        btnTd.appendChild(btn);
+        stopIntervalAndTimeout();
+        saveUserId(pKey);
+        window.history.pushState('', 'Fight', '/play/fight');
+        routing.startGeneratingPage();
+    }
+    let btnTxt = document.createTextNode('Choose');
+    btn.appendChild(btnTxt);
+    btn.setAttribute('class', 'btn btn-success');
+    btnTd.appendChild(btn);
 
-        return btnTd;
+    return btnTd;
 };
 
 var saveUserId = (userId) => {
 
     let localStorage = window.localStorage;
 
-    localStorage.setItem('chosenPlayer', JSON.stringify(players[userId]));    
+    localStorage.setItem('chosenPlayer', JSON.stringify(players[userId]));
 };
 
 // Set the date we're counting down to
@@ -103,7 +104,7 @@ var conteur = () => {
     countDownDate.setSeconds(countDownDate.getSeconds() + 30)
 
     // Update the count down every 1 second
-    var x = setInterval(function() {
+    interval = setInterval(function() {
 
         // Get todays date and time
         var now = new Date().getTime();
@@ -120,21 +121,37 @@ var conteur = () => {
 
     }, 1);
     runPromiseCountDown();
-}
+};
+
 var runPromiseCountDown = () => {
     var promise1 = new Promise(function(resolve, reject) {
-        setTimeout(function() {
+        timer = setTimeout(function() {
             resolve('foo');
-        }, 30000);
+        }, 5000);
     });
 
     promise1.then(function(value) {
-        console.log(value);
-        // expected output: "foo"
+        stopIntervalAndTimeout();
+        saveUserId(randomKey(players));
+        document.getElementById('choose-Btn').click();
     });
-}
+};
+
+var randomKey = (obj)  =>{
+    var keys = Object.keys(obj);
+    return keys[keys.length * Math.random() << 0];
+};
+
+var stopIntervalAndTimeout = () => {
+    clearInterval(interval);
+    clearTimeout(timer);
+    interval = undefined;
+    timer = undefined;
+
+};
 
 export {
     playHtml,
-    getInfosFromApi
+    getInfosFromApi,
+    players
 };
