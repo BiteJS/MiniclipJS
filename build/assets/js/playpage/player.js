@@ -1,4 +1,4 @@
-import { type_check, type_check_v1, type_check_v2 } from "../utils";
+import { type_check, type_check_v1, type_check_v2 } from "../utils.js";
 
 "use strict";
 

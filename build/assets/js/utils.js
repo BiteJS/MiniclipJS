@@ -86,6 +86,5 @@ export {
     type_check,
     type_check_v2,
     type_check_v1
-    
 };
 
