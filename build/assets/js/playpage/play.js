@@ -9,6 +9,8 @@ const table = document.createElement('table');
 const root = document.getElementById('root');
 const para = document.createElement("p");
 
+var localStorage = window.localStorage;
+
 var players = {};
 var timer, interval;
 
@@ -31,9 +33,12 @@ var extractInfosFromData = (data) => {
         //let player1 = new Player(12, 'tt','ets', 100);
         players[element.lolesportsId] = player;
     }
+    console.log(players);
+
+    localStorage.setItem('players', JSON.stringify(players));
+
     let mainContainer = document.getElementsByClassName('main-container')[0];
 
-    console.log(players);
 
     mainContainer.removeChild(document.getElementById('start_button'));
 
@@ -43,10 +48,12 @@ var extractInfosFromData = (data) => {
 
 var generatePlayers = () => {
     let mainContainer = document.getElementsByClassName('main-container')[0];
+    let tbody = document.createElement('tbody');
+
     for (let pKey in players) {
 
         const tr = document.createElement('tr');
-        table.appendChild(tr);
+        tbody.appendChild(tr);
 
         for (let key in players[pKey]) {
             let text;
@@ -65,7 +72,7 @@ var generatePlayers = () => {
         let btnTd = createChooseBtnTd(pKey);
         tr.appendChild(btnTd);
     }
-
+    table.appendChild(tbody);
     mainContainer.appendChild(table);
 };
 
@@ -78,7 +85,7 @@ var createChooseBtnTd = (pKey) => {
 
         stopIntervalAndTimeout();
         saveUserId(pKey);
-        window.history.pushState('', 'Fight', '/play/fight');
+        window.history.pushState('', 'Fight', '/fight');
         routing.startGeneratingPage();
     }
     let btnTxt = document.createTextNode('Choose');
@@ -90,9 +97,6 @@ var createChooseBtnTd = (pKey) => {
 };
 
 var saveUserId = (userId) => {
-
-    let localStorage = window.localStorage;
-
     localStorage.setItem('chosenPlayer', JSON.stringify(players[userId]));
 };
 
@@ -127,7 +131,7 @@ var runPromiseCountDown = () => {
     var promise1 = new Promise(function(resolve, reject) {
         timer = setTimeout(function() {
             resolve('foo');
-        }, 5000);
+        }, 60000);
     });
 
     promise1.then(function(value) {

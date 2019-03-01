@@ -50,8 +50,8 @@ const generateFightPage = () => {
 const routes = {
     '/': generateHomePage,
     '/play': generatePlayPage,
-    '/play/fight': generateFightPage
-}
+    '/fight': generateFightPage
+};
 
 export {
     routes,

@@ -2,16 +2,22 @@
 
 import * as play from '../playpage/play.js';
 
-const fightHtml = `<section class="main-container">
-    <div >
+var localStorage = window.localStorage;
+var players = {};
 
+const fightHtml = `<section class="main-container">
+    <div>
     </div> 
     </section>`;
 
 
-let init = () => {
-    console.log(play.players);
+var init = () => {
+    players = JSON.parse(localStorage.getItem('players'));
+
+    
 };
+
+
 
 
 export {
